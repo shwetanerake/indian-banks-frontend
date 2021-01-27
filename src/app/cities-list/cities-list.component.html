@@ -1,0 +1,14 @@
+<mat-card>
+  <div ngbDropdown container="body">
+    <button class="btn btn-outline-primary" id="cityDropDownId" ngbDropdownToggle>Cities
+    </button>
+    <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="cityDropDownId">
+      <li ngbDropdownItem *ngFor="let city of cities" (click)="onCitySelection(city)">
+        <!--<span class="badge">
+    		{{city.id}}
+    	</span>-->
+        {{city.name}}
+      </li>
+    </div>
+  </div>
+</mat-card>
