@@ -1,5 +1,4 @@
-export class Branch {
-
+export interface Branch {
 	ifsc :String;
  	bank_id :number; 
  	branch   :String;

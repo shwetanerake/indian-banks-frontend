@@ -1,8 +1,11 @@
 <div class="container">
-  <mat-card >
-    <mat-card-header style="background-color:#007bff;padding-top: 10px">
+  <mat-card>
+    <mat-card-header style="background-color:#B8B8B8;padding-top: 10px">
       <mat-card-title>{{title}}</mat-card-title>
     </mat-card-header>
   </mat-card>
-  <cities-list></cities-list>
+  <cities-list [branchListComponent]="data"></cities-list>
+  <div>
+    <branches-list #data></branches-list>
+  </div>
 </div>

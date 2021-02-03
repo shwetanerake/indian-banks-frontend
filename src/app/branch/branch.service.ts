@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient,HttpErrorResponse,HttpParams } from '@angular/common/http';
-import {Branch} from '../branch/branch.model';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
 import {  throwError } from 'rxjs';
@@ -12,7 +11,7 @@ import { retry, catchError } from 'rxjs/operators';
 
 export class BranchService {
 
-	private BRANCHES_IN_CITY_API = "http://localhost:8082/api/branches/autocomplete?q=AKOLA&limit=2&offset=0";
+	private BRANCHES_IN_CITY_API = "http://localhost:8082/api/branches/autocomplete";
 
 	constructor(private httpClient: HttpClient) {}
 
@@ -36,9 +35,15 @@ export class BranchService {
 			'Something bad happened; please try again later.');
 	}
 
-	public getBranchesInCity() {
-		return this.httpClient.get(this.BRANCHES_IN_CITY_API).
-			pipe(retry(3), catchError(this.handleError));;
+	public getBranchesInCity(cityName, offset, limit) {
+		
+		return this.httpClient.get(this.BRANCHES_IN_CITY_API,{
+            params: new HttpParams()
+            	.set('q',cityName)
+                .set('offset', offset.toString())
+                .set('limit', limit.toString())
+                
+        }).pipe(retry(3), catchError(this.handleError));;
 
 	}
 }

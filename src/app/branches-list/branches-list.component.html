@@ -1,0 +1,60 @@
+<div class="alert alert-warning" role="alert" >
+  Please select a City to continue..
+</div>
+<!--<div class="loading-indicator" *ngIf="loading;else table">
+  <mat-spinner mode="indeterminate"></mat-spinner>
+</div>-->
+ <input matInput placeholder="Search..." #input>
+
+
+  <div class="alert alert-info">Showing branches within {{selectedCityName}} city...</div>
+    <!--seardh bar starts-->
+ 
+ 
+  <!--seardh bar ends-->
+  <!--pagination starts-->
+  <mat-paginator [pageIndex]=0 [pageSize]="5" [pageSizeOptions]="[5, 10, 15, 20, 30] " [showFirstLastButtons]="true" (page)="pageChanged($event)">
+  </mat-paginator>
+  <!--pagination ends-->
+  <!--table starts-->
+  <table mat-table [dataSource]="branchDataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef="ifsc">
+      <th mat-header-cell *matHeaderCellDef>IFSC</th>
+      <td mat-cell *matCellDef="let element">
+        <div>{{element.ifsc}}</div>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="branch">
+      <th mat-header-cell *matHeaderCellDef>Branch Name</th>
+      <td mat-cell *matCellDef="let element">
+        <div>{{element.branch}}</div>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="address">
+      <th mat-header-cell *matHeaderCellDef>Address</th>
+      <td mat-cell *matCellDef="let element">
+        <div style="display:block; word-wrap: break-word; width: 40em;">{{element.address}}</div>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="city">
+      <th mat-header-cell *matHeaderCellDef>City</th>
+      <td mat-cell *matCellDef="let element">{{element.city}}</td>
+    </ng-container>
+    <ng-container matColumnDef="district">
+      <th mat-header-cell *matHeaderCellDef>District</th>
+      <td mat-cell *matCellDef="let element">{{element.district}}</td>
+    </ng-container>
+    <ng-container matColumnDef="state">
+      <th mat-header-cell *matHeaderCellDef>State</th>
+      <td mat-cell *matCellDef="let element">{{element.state}}</td>
+    </ng-container>
+    <ng-container matColumnDef="favourite">
+      <th mat-header-cell *matHeaderCellDef>Mark As Favourite</th>
+      <td mat-cell *matCellDef="let element">
+        <app-favourite-button (selectedChange)="onVoted($event,element)"></app-favourite-button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+  </table>
+  <!--table ends-->
