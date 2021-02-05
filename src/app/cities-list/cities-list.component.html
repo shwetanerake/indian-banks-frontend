@@ -1,14 +1,19 @@
-<mat-card>
-  <div ngbDropdown container="body">
+
+  <!--<div ngbDropdown container="body">
     <button class="btn btn-outline-primary" id="cityDropDownId" ngbDropdownToggle>Cities
     </button>
     <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="cityDropDownId">
-      <li class="dropdown-item" ngbDropdownItem *ngFor="let city of cities" (click)="onCitySelection(city)">
-        <!--<span class="badge">
-    		{{city.id}}
-    	</span>-->
+      <li [routerLink]="['/api/branches', city.name]" class="dropdown-item" ngbDropdownItem *ngFor="let city of cities" (click)="onCitySelection(city)">
         {{city.name}}
       </li>
     </div>
-  </div>
-</mat-card>
+  </div>-->
+  
+  <mat-form-field appearance="fill">
+    <mat-label>List Branches within City</mat-label>
+    <mat-select [(value)]="citySelected">
+      <mat-option [routerLink]="['/api/branches', city.name]" (click)="onCitySelection(city)" [value]="city.name" *ngFor="let city of cities">{{ city.name }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <p>Showing branches withing {{citySelected}} city...</p>
+
