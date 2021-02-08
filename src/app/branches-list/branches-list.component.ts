@@ -17,13 +17,16 @@ import {
 	distinctUntilChanged,
 	startWith,
 	tap,
-	delay,
-	merge
+	delay
 } from "rxjs/operators";
-import { fromEvent, Subject, pipe } from "rxjs";
-import { Branch } from "../branch";
-import { MatTableDataSource } from "@angular/material/table";
+import { fromEvent, Subject, pipe, merge } from "rxjs";
+import { Branch } from "../model/branch";
+//import { MatTableDataSource } from "@angular/material/table";
 import { SelectedCityService } from "../shared/selected-city.service";
+import { BranchesDataSource } from "../services/branches.datasource";
+import { ActivatedRoute, Router, NavigationEnd } from "@angular/router";
+import "rxjs/add/operator/filter";
+
 
 @Component({
 	selector: "branches-list",
@@ -31,12 +34,17 @@ import { SelectedCityService } from "../shared/selected-city.service";
 	styleUrls: ["./branches-list.component.css"]
 })
 export class BranchesListComponent implements OnInit, AfterViewInit {
-	@Input() selected: boolean;
-	@Output() selectedChange = new EventEmitter<boolean>();
 
-	destroy$: Subject<boolean> = new Subject<boolean>();
-	selectedCityName: String;
-	branches: any[];
+	@ViewChild(MatPaginator) paginator: MatPaginator;
+
+	branch: Branch;
+
+	count: number;
+	//branches: Branch[];
+	//branchDataSource = new MatTableDataSource<any>();
+
+	branchDataSource: BranchesDataSource;
+
 	columnsToDisplay = [
 		"ifsc",
 		"branch",
@@ -47,62 +55,108 @@ export class BranchesListComponent implements OnInit, AfterViewInit {
 		"favourite"
 	];
 
+	@Input() selected: boolean;
+	@Output() selectedChange = new EventEmitter<boolean>();
+
+	//destroy$: Subject<boolean> = new Subject<boolean>();
+	selectedCityName: string;
+
 	loading: boolean = true;
 	shouldShow: boolean = true;
-	branchDataSource = new MatTableDataSource<any>();
 
-	@ViewChild(MatPaginator) paginator: MatPaginator;
-	@ViewChild("input",{static: false}) input: ElementRef;
+	@ViewChild("input", { static: false }) input: ElementRef;
 
 	constructor(
+		private router: Router,
+		private route: ActivatedRoute,
 		private selectedCityService: SelectedCityService,
 		private branchService: BranchService
-	) {}
+	) {
+		/*router.events
+			.filter(e => e instanceof NavigationEnd)
+			.forEach(e => {
+				console.log("title", route.root.firstChild.snapshot.data);
+			});*/
+	}
 
 	ngOnInit(): void {
 		//this.getData('NASHIK',0,5);
+		this.router.events
+			.filter(e => e instanceof NavigationEnd)
+			.forEach(e => {
+				console.log(
+					"title",
+					this.route.root.firstChild.snapshot.data.course.branches[0].count
+				);
+				this.count = this.route.root.firstChild.snapshot.data.course.branches[0].count;
+				console.log("BranchesListComponent OnInit | pageLength " + JSON.stringify(this.count));
+			});
+
+		
+		this.branchDataSource = new BranchesDataSource(this.branchService);
+		
+		this.branchDataSource.datatableSearchAndListByCityName(
+			this.selectedCityService.getSelectedCity().name.toString(),
+			"",
+			0,
+			5
+		);
 	}
 
 	ngAfterViewInit() {
-		console.log("%%%%%%%%%%%%%%%%%" + this.input.nativeElement.value);
+		console.log("ngAfterViewInit | this.input.nativeElement.value: " + this.input.nativeElement.value);
 
-		
-			/*fromEvent(this.input.nativeElement, "keyup")
+		fromEvent(this.input.nativeElement, "keyup")
 			.pipe(
 				debounceTime(150),
 				distinctUntilChanged(),
 				tap(() => {
 					this.paginator.pageIndex = 0;
 
-					this.getData(
-						this.input.nativeElement.value,
-						this.paginator.pageIndex * this.paginator.pageSize,
-						this.paginator.pageSize
-					);
+					this.loadBranches();
 				})
 			)
-			.subscribe();*/
-       
+			.subscribe();
+
+		merge(this.paginator.page)
+			.pipe(tap(() => this.loadBranches()))
+			.subscribe();
+	}
+
+	loadBranches() {
+		this.branchDataSource.datatableSearchAndListByCityName(
+			this.selectedCityService.getSelectedCity().name.toString(),
+			this.input.nativeElement.value,
+			this.paginator.pageIndex,
+			this.paginator.pageSize
+		);
+	}
+
+	loadBranchesOnCitySelection(cityName: string, searchString:''){
+		this.branchDataSource.datatableSearchAndListByCityName(
+			cityName,
+			searchString,
+			this.paginator.pageIndex,
+			this.paginator.pageSize
+		);
 	}
 
 	ngOnDestroy() {
-		this.destroy$.next(true);
+		//this.destroy$.next(true);
 		// Unsubscribe from the subject
-		this.destroy$.unsubscribe();
+		//this.destroy$.unsubscribe();
+		localStorage.clear();
 	}
 
-	public toggleSelected(event) {
-		console.log("ooooooo" + JSON.stringify(event));
-		this.selected = !this.selected;
-		this.selectedChange.emit(this.selected);
+	markAsFavourite($event, element) {
+
+		//console.log("isFavourite?:" + JSON.stringify($event));
+		element['isFavourite'] = $event;
+		//console.log("after marking favourite: " + JSON.stringify(element));
+		localStorage.setItem(element.ifsc,  JSON.stringify(element));
 	}
 
-	onVoted($event, element) {
-		console.log("00000000000000000000" + JSON.stringify($event));
-		console.log("00000000000000000000" + JSON.stringify(element));
-	}
-
-	pageChanged(event) {
+	/*pageChanged(event) {
 		this.loading = true;
 
 		console.log("Page changed..." + JSON.stringify(event));
@@ -121,32 +175,16 @@ export class BranchesListComponent implements OnInit, AfterViewInit {
 				pageIndex +
 				" | pageSize: " +
 				pageSize
-		);
+		);*/
 
-		this.getBranchesInCityOnPageChange(
+		/*this.getBranchesInCityOnPageChange(
 			previousSize,
 			pageIndex.toString(),
 			pageSize.toString()
-		);
-	}
+		);*/
+	
 
-	getData(cityName, offset, limit) {
-		this.selectedCityName = cityName;
-		this.branchService
-			.getBranchesInCity(cityName, offset, limit)
-			.subscribe((data: any) => {
-				this.loading = false;
-				this.branches = data.branches;
-				console.log("branches: " + JSON.stringify(data));
-				this.branches.length = data.branches[0].count;
-
-				//console.log("branches length: " + this.branches.length);
-				this.branchDataSource = new MatTableDataSource<any>(this.branches);
-				this.branchDataSource.paginator = this.paginator;
-			});
-	}
-
-	getBranchesInCityOnPageChange(currentSize, offset, limit) {
+	/*getBranchesInCityOnPageChange(currentSize, offset, limit) {
 		console.log("getBranchesInCityOnPageChange:" + this.selectedCityName);
 		this.branchService
 			.getBranchesInCity(this.selectedCityName, offset, limit)
@@ -164,5 +202,5 @@ export class BranchesListComponent implements OnInit, AfterViewInit {
 				this.branchDataSource._updateChangeSubscription();
 				this.branchDataSource.paginator = this.paginator;
 			});
-	}
+	}*/
 }

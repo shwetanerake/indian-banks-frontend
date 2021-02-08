@@ -1,24 +1,9 @@
-table {
-  width: 100%;
+.spinner-container {
+    height: 360px;
+    width: 390px;
+    position: fixed;
 }
 
-.mat-row {
-  height: auto;
-}
-
-.mat-cell {
-  padding: 10px 10px 10px 0;
-}
-
-.loading-indicator {
-  position: fixed;
-  z-index: 999;
-  height: 2em;
-  width: 2em;
-  overflow: show;
-  margin: auto;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
+.spinner-container mat-spinner {
+    margin: 130px auto 0 auto;
 }

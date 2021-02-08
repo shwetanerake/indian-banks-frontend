@@ -19,6 +19,9 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatSelectModule } from "@angular/material/select";
+import { CityBranchesResolver } from "./services/city.branches.resolver";
+import { BranchService } from "./branch/branch.service";
+
 
 @NgModule({
   declarations: [
@@ -44,7 +47,7 @@ import { MatSelectModule } from "@angular/material/select";
     MatFormFieldModule,
     MatSelectModule
   ],
-  providers: [SelectedCityService],
+  providers: [ CityBranchesResolver, SelectedCityService, BranchService],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
