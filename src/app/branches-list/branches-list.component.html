@@ -15,6 +15,12 @@
 </div>
 <!--table starts-->
 <mat-table [dataSource]="branchDataSource" class="mat-elevation-z8">
+  <ng-container matColumnDef="bankId">
+    <mat-header-cell *matHeaderCellDef>Bank ID</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <div>{{element.bank_id}}</div>
+    </mat-cell>
+  </ng-container>
   <ng-container matColumnDef="ifsc">
     <mat-header-cell *matHeaderCellDef>IFSC</mat-header-cell>
     <mat-cell *matCellDef="let element">

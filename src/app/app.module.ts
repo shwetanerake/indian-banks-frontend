@@ -21,7 +21,9 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatSelectModule } from "@angular/material/select";
 import { CityBranchesResolver } from "./services/city.branches.resolver";
 import { BranchService } from "./branch/branch.service";
-
+import { CacheRegistrationService } from "./services/cache.registeration.service";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { AppHttpInterceptor } from "./services/app.http-interceptor";
 
 @NgModule({
   declarations: [
@@ -47,7 +49,16 @@ import { BranchService } from "./branch/branch.service";
     MatFormFieldModule,
     MatSelectModule
   ],
-  providers: [ CityBranchesResolver, SelectedCityService, BranchService],
+  providers: [
+    CacheRegistrationService,
+     { provide: HTTP_INTERCEPTORS,
+      useClass: AppHttpInterceptor,
+      multi: true
+    },
+    CityBranchesResolver,
+    SelectedCityService,
+    BranchService
+  ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

@@ -46,6 +46,7 @@ export class BranchesListComponent implements OnInit, AfterViewInit {
 	branchDataSource: BranchesDataSource;
 
 	columnsToDisplay = [
+		"bankId",
 		"ifsc",
 		"branch",
 		"address",
@@ -72,6 +73,8 @@ export class BranchesListComponent implements OnInit, AfterViewInit {
 		private selectedCityService: SelectedCityService,
 		private branchService: BranchService
 	) {
+
+		console.log("BranchesListComponent | constructor ");
 		/*router.events
 			.filter(e => e instanceof NavigationEnd)
 			.forEach(e => {
@@ -81,13 +84,10 @@ export class BranchesListComponent implements OnInit, AfterViewInit {
 
 	ngOnInit(): void {
 		//this.getData('NASHIK',0,5);
+		console.log("BranchesListComponent | ngOnInit ");
 		this.router.events
 			.filter(e => e instanceof NavigationEnd)
 			.forEach(e => {
-				console.log(
-					"title",
-					this.route.root.firstChild.snapshot.data.course.branches[0].count
-				);
 				this.count = this.route.root.firstChild.snapshot.data.course.branches[0].count;
 				console.log("BranchesListComponent OnInit | pageLength " + JSON.stringify(this.count));
 			});
@@ -104,7 +104,7 @@ export class BranchesListComponent implements OnInit, AfterViewInit {
 	}
 
 	ngAfterViewInit() {
-		console.log("ngAfterViewInit | this.input.nativeElement.value: " + this.input.nativeElement.value);
+		console.log("BranchesListComponent | ngAfterViewInit | this.input.nativeElement.value: " + this.input.nativeElement.value);
 
 		fromEvent(this.input.nativeElement, "keyup")
 			.pipe(
@@ -113,17 +113,18 @@ export class BranchesListComponent implements OnInit, AfterViewInit {
 				tap(() => {
 					this.paginator.pageIndex = 0;
 
-					this.loadBranches();
+					this.loadBranchesWithSearch();
 				})
 			)
 			.subscribe();
 
 		merge(this.paginator.page)
-			.pipe(tap(() => this.loadBranches()))
+			.pipe(tap(() => this.loadBranchesWithSearch()))
 			.subscribe();
 	}
 
-	loadBranches() {
+	loadBranchesWithSearch() {
+		console.log("BranchesListComponent | loadBranchesWithSearch");
 		this.branchDataSource.datatableSearchAndListByCityName(
 			this.selectedCityService.getSelectedCity().name.toString(),
 			this.input.nativeElement.value,
@@ -133,6 +134,7 @@ export class BranchesListComponent implements OnInit, AfterViewInit {
 	}
 
 	loadBranchesOnCitySelection(cityName: string, searchString:''){
+		console.log("BranchesListComponent  | loadBranchesOnCitySelection");
 		this.branchDataSource.datatableSearchAndListByCityName(
 			cityName,
 			searchString,
@@ -142,6 +144,7 @@ export class BranchesListComponent implements OnInit, AfterViewInit {
 	}
 
 	ngOnDestroy() {
+		console.log("BranchesListComponent OnInit | ngOnDestroy");
 		//this.destroy$.next(true);
 		// Unsubscribe from the subject
 		//this.destroy$.unsubscribe();

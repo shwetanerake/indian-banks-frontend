@@ -21,6 +21,7 @@ export class BranchesDataSource implements DataSource<Branch> {
 		offset: number,
 		limit: number
 	) {
+		console.log("In datatableSearchAndListByCityName....");
 		this.loadingSubject.next(true);
 
 		this.branchService
@@ -38,14 +39,14 @@ export class BranchesDataSource implements DataSource<Branch> {
 					for (var serverResultJson of serverResultArray) {
 
 						let localStorageJson = JSON.parse(localStorage.getItem(serverResultJson['ifsc']));
-						console.log("localStorageJson: " + JSON.stringify(localStorageJson));
+						//console.log("localStorageJson: " + JSON.stringify(localStorageJson));
 						if(localStorageJson!=null && localStorageJson['isFavourite'])	{
 							serverResultJson['isFavourite'] = true;
 						} else {
 							serverResultJson['isFavourite'] = false;
 						}
 						
-     					console.log(JSON.stringify(serverResultJson));
+     					//console.log(JSON.stringify(serverResultJson));
      					//localStorage.setItem(serverResultJson['ifsc'],serverResultJson.toString());
 					}
 					this.branchesSubject.next(data["result"]);

@@ -24,7 +24,10 @@ export class CitiesListComponent implements OnInit {
   constructor(
     private router: Router,
     private selectedCityService: SelectedCityService
-  ) {}
+  ) {
+    console.log(
+      "CitiesListComponent | constructor ");
+  }
 
   /*constructor(
     private router: Router,
@@ -36,10 +39,13 @@ export class CitiesListComponent implements OnInit {
     
     this.citySelected = this.cities[0];
     console.log(
-      "CitiesListComponent | ngOnInit | city selected: " + this.citySelected
+      "CitiesListComponent | ngOnInit | city selected: " + JSON.stringify(this.citySelected)
     );
     this.selectedCityService.setSelectedCity(this.citySelected);
     this.router.navigateByUrl("api/branches/" + this.citySelected.name);
+    console.log(
+      "CitiesListComponent | navigated to: " + "api/branches/" + this.citySelected.name
+    );
     //this.branchService.findBranchesByCityName(this.citySelected.name.toString());
   }
 
