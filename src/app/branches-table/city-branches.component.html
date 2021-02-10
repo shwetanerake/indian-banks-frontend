@@ -14,10 +14,10 @@
   <mat-spinner></mat-spinner>
 </div>
 <!--table starts-->
-<mat-table [dataSource]="branchDataSource" class="mat-elevation-z8">
+<mat-table [dataSource]="branchDataSource" class="branches-table mat-elevation-z8">
   <ng-container matColumnDef="bankId">
     <mat-header-cell *matHeaderCellDef>Bank ID</mat-header-cell>
-    <mat-cell *matCellDef="let element">
+    <mat-cell class="bank-id-cell" *matCellDef="let element">
       <div>{{element.bank_id}}</div>
     </mat-cell>
   </ng-container>
@@ -25,6 +25,12 @@
     <mat-header-cell *matHeaderCellDef>IFSC</mat-header-cell>
     <mat-cell *matCellDef="let element">
       <div>{{element.ifsc}}</div>
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="bank_name">
+    <mat-header-cell *matHeaderCellDef>Bank Name</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <div>{{element.bank_name}}</div>
     </mat-cell>
   </ng-container>
   <ng-container matColumnDef="branch">
@@ -35,8 +41,8 @@
   </ng-container>
   <ng-container matColumnDef="address">
     <mat-header-cell *matHeaderCellDef>Address</mat-header-cell>
-    <mat-cell *matCellDef="let element">
-      <div style="display:block; word-wrap: break-word; width: 40em;">{{element.address}}</div>
+    <mat-cell class="address-cell" *matCellDef="let element">
+      <div>{{element.address}}</div>
     </mat-cell>
   </ng-container>
   <ng-container matColumnDef="city">

@@ -1,7 +1,7 @@
 import { CollectionViewer, DataSource } from "@angular/cdk/collections";
 import { Branch } from "../model/branch";
 import { Observable, BehaviorSubject, of } from "rxjs";
-import { BranchService } from "../branch/branch.service";
+import { BranchService } from "./branch.service";
 import { catchError, finalize } from "rxjs/operators";
 import { MatPaginator } from "@angular/material/paginator";
 

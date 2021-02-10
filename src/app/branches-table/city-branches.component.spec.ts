@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BranchesListComponent } from './branches-list.component';
+import { CityBranchesComponent } from './city-branches.component';
 
-describe('BranchesListComponent', () => {
-  let component: BranchesListComponent;
-  let fixture: ComponentFixture<BranchesListComponent>;
+describe('CityBranchesComponent', () => {
+  let component: CityBranchesComponent;
+  let fixture: ComponentFixture<CityBranchesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BranchesListComponent ]
+      declarations: [ CityBranchesComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BranchesListComponent);
+    fixture = TestBed.createComponent(CityBranchesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

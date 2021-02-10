@@ -10,7 +10,7 @@ import {
 	AfterContentInit
 } from "@angular/core";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
-import { BranchService } from "../branch/branch.service";
+import { BranchService } from "../services/branch.service";
 import {
 	takeUntil,
 	debounceTime,
@@ -22,20 +22,19 @@ import {
 import { fromEvent, Subject, pipe, merge } from "rxjs";
 import { Branch } from "../model/branch";
 //import { MatTableDataSource } from "@angular/material/table";
-import { SelectedCityService } from "../shared/selected-city.service";
+import { SelectedCityService } from "../services/selected-city.service";
 import { BranchesDataSource } from "../services/branches.datasource";
 import { ActivatedRoute, Router, NavigationEnd } from "@angular/router";
 import "rxjs/add/operator/filter";
 
-
 @Component({
-	selector: "branches-list",
-	templateUrl: "./branches-list.component.html",
-	styleUrls: ["./branches-list.component.css"]
+  selector: 'city-branches-table',
+  templateUrl: './city-branches.component.html',
+  styleUrls: ['./city-branches.component.css']
 })
-export class BranchesListComponent implements OnInit, AfterViewInit {
+export class CityBranchesComponent implements OnInit, AfterViewInit {
 
-	@ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
 	branch: Branch;
 
@@ -48,6 +47,7 @@ export class BranchesListComponent implements OnInit, AfterViewInit {
 	columnsToDisplay = [
 		"bankId",
 		"ifsc",
+		"bank_name",
 		"branch",
 		"address",
 		"city",
@@ -206,4 +206,5 @@ export class BranchesListComponent implements OnInit, AfterViewInit {
 				this.branchDataSource.paginator = this.paginator;
 			});
 	}*/
+
 }

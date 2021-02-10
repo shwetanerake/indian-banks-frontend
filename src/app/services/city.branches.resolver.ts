@@ -6,7 +6,7 @@ import {
 } from "@angular/router";
 import { Branch } from "../model/branch";
 import { Observable } from "rxjs";
-import { BranchService } from "../branch/branch.service";
+import { BranchService } from "./branch.service";
 
 @Injectable()
 export class CityBranchesResolver implements Resolve<Branch[]> {
