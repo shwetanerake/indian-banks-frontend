@@ -20,7 +20,7 @@ export class BranchService {
 
 	private cache = {};
 
-	private SEARCH_AND_FIND_BRANCHES_IN_CITY_ENDPOINT ="http://localhost:8082/api/branches/autocomplete";
+	private SEARCH_AND_FIND_BRANCHES_IN_CITY_ENDPOINT ="/api/branches/autocomplete";
 
 	constructor(private httpClient: HttpClient,private cacheRegistrationService: CacheRegistrationService) {
 		console.log("BranchService | constructor");
@@ -120,7 +120,7 @@ export class BranchService {
 
 	findBranchesByCityName(cityName: string): Observable<Branch[]> {
 		return this.httpClient.get<Branch[]>(
-			`http://localhost:8082/api/branches?q=${cityName}`
+			`/api/branches?q=${cityName}`
 		);
 	}
 }
