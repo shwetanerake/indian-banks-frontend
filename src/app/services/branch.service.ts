@@ -11,6 +11,7 @@ import { throwError, of, EMPTY } from "rxjs";
 import { retry, catchError } from "rxjs/operators";
 import { Branch } from "../model/branch";
 import { CacheRegistrationService } from "../services/cache.registeration.service";
+import { environment } from "../../environments/environment.prod";
 
 @Injectable({
 	providedIn: "root"
@@ -20,7 +21,7 @@ export class BranchService {
 
 	private cache = {};
 
-	private SEARCH_AND_FIND_BRANCHES_IN_CITY_ENDPOINT ="/api/branches/autocomplete";
+	private SEARCH_AND_FIND_BRANCHES_IN_CITY_ENDPOINT = environment.apiHostname + "/api/branches/autocomplete";
 
 	constructor(private httpClient: HttpClient,private cacheRegistrationService: CacheRegistrationService) {
 		console.log("BranchService | constructor");
@@ -120,7 +121,7 @@ export class BranchService {
 
 	findBranchesByCityName(cityName: string): Observable<Branch[]> {
 		return this.httpClient.get<Branch[]>(
-			`/api/branches?q=${cityName}`
+			environment.apiHostname + `/api/branches?q=${cityName}`
 		);
 	}
 }

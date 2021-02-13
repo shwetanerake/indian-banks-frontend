@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  apiHostname: "https://indian-banks-backend.herokuapp.com/"
 };
