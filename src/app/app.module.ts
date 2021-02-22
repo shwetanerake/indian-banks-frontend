@@ -18,13 +18,15 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatSelectModule } from "@angular/material/select";
-import { CityBranchesResolver } from "./services/city.branches.resolver";
+import { CityBranchesResolver } from "./services/branches.in.city.resolver";
 import { BranchService } from "./services/branch.service";
 import { CacheRegistrationService } from "./services/cache.registeration.service";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AppHttpInterceptor } from "./services/app.http-interceptor";
-import { BranchComponent } from "./branch/branch/branch.component";
+import { BranchComponent } from "./branch/branch.component";
 import { CityBranchesComponent } from "./branches-table/city-branches.component";
+import { BranchDetailsResolver } from "./services/branch.details.resolver";
+import { DefaultlayoutComponent } from './defaultlayout/defaultlayout.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,8 @@ import { CityBranchesComponent } from "./branches-table/city-branches.component"
     CitiesListComponent,
     FavouriteComponent,
     BranchComponent,
-    CityBranchesComponent
+    CityBranchesComponent,
+    DefaultlayoutComponent
   ],
   imports: [
     BrowserModule,
@@ -56,7 +59,8 @@ import { CityBranchesComponent } from "./branches-table/city-branches.component"
     { provide: HTTP_INTERCEPTORS, useClass: AppHttpInterceptor, multi: true },
     CityBranchesResolver,
     SelectedCityService,
-    BranchService
+    BranchService,
+    BranchDetailsResolver
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
