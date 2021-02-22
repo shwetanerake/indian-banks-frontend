@@ -11,8 +11,8 @@ import { throwError, of, EMPTY } from "rxjs";
 import { retry, catchError } from "rxjs/operators";
 import { Branch } from "../model/branch";
 import { CacheRegistrationService } from "../services/cache.registeration.service";
-import { environment } from "../../environments/environment.prod";
-//import { environment } from "../../environments/environment";
+//import { environment } from "../../environments/environment.prod";
+import { environment } from "../../environments/environment";
 
 @Injectable({
 	providedIn: "root"
@@ -22,15 +22,22 @@ export class BranchService {
 
 	private cache = {};
 
+	private serverHostName : string = environment.apiHostname;
+
 	private SEARCH_API_ENDPOINT =
-		environment.apiHostname + "/api/branches/autocomplete";
+		this.serverHostName + "/api/branches/autocomplete";
 
 	private BRANCH_DEATILS_API_ENDPOINT =
-		environment.apiHostname + "/api/bank/branch?ifsc=";
+		this.serverHostName  + "/api/bank/branch?ifsc=";
+
+	private GET_BRANCHES_IN_CITY_API_ENDPOINT =
+		this.serverHostName  + "/api/branches?q=";
 
 	constructor(private httpClient: HttpClient,private cacheRegistrationService: CacheRegistrationService) {
 		console.log("BranchService | constructor");
 		cacheRegistrationService.addToCache(this.SEARCH_API_ENDPOINT);
+		cacheRegistrationService.addToCache(this.BRANCH_DEATILS_API_ENDPOINT);
+		cacheRegistrationService.addToCache(this.GET_BRANCHES_IN_CITY_API_ENDPOINT);
 	}
 
 	/*constructor(private httpClient: HttpClient) {
@@ -66,7 +73,7 @@ export class BranchService {
 	
 	findBranchesByCityName(cityName: string): Observable<Branch[]> {
 		return this.httpClient.get<Branch[]>(
-			environment.apiHostname + `/api/branches?q=${cityName}`
+			this.GET_BRANCHES_IN_CITY_API_ENDPOINT + cityName
 		);
 	}
 
@@ -74,6 +81,7 @@ export class BranchService {
 		return this.httpClient.get<Branch>(this.BRANCH_DEATILS_API_ENDPOINT + ifsc
 		);
 	}
+
 	/*private handleError(error: HttpErrorResponse) {
 		if (error.error instanceof ErrorEvent) {
 			// A client-side or network error occurred. Handle it accordingly.
@@ -87,9 +95,9 @@ export class BranchService {
 		}
 		// Return an observable with a user-facing error message.
 		return throwError("Something bad happened; please try again later.");
-	}
+	}*/
 
-	public getBranchesInCity(cityName, offset, limit) {
+	/*public getBranchesInCity(cityName, offset, limit) {
 		
 		return this.httpClient.get(this.SEARCH_API_ENDPOINT,{
             params: new HttpParams()

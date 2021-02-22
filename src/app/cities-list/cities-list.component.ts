@@ -48,7 +48,7 @@ export class CitiesListComponent implements OnInit {
     console.log(
       "CitiesListComponent | navigated to: " + "branches/" + this.citySelected.name
     );
-    this.branchService.findBranchesByCityName(this.citySelected.name.toString());
+    //this.branchService.findBranchesByCityName(this.citySelected.name.toString());
   }
 
   onCitySelection(city: City) {
