@@ -27,7 +27,8 @@ export class AppHttpInterceptor implements HttpInterceptor {
 		// Don't cache if
 		// 1. It's not a GET request
 		// 2. If URI is not supposed to be cached
-		/*if (httpRequest.method !== "GET" ||
+
+		/*if (httpRequest.urlWithParams !== "ifsc" ||
 			!this.cacheRegistrationService.addedToCache(httpRequest.url)) {
 			return handler.handle(httpRequest);
 		}*/
@@ -40,7 +41,7 @@ export class AppHttpInterceptor implements HttpInterceptor {
 		// Checked if there is cached data for this URI
 		const lastResponse = this.cachedData.get(httpRequest.urlWithParams);
 		if (lastResponse) {
-			console.log("returned cache value...");
+			console.log("AppHttpInterceptor | returned cache value...");
 			// In case of parallel requests to same URI,
 			// return the request already in progress
 			// otherwise return the last cached data
@@ -52,7 +53,8 @@ export class AppHttpInterceptor implements HttpInterceptor {
 		// then let the request proceed and cache the response
 		const requestHandle = handler.handle(httpRequest).do((stateEvent) => {
 			if (stateEvent instanceof HttpResponse) {
-				console.log("do the req again" + JSON.stringify(stateEvent));
+				console.log("AppHttpInterceptor | do the req again");
+				//console.log("do the req again" + JSON.stringify(stateEvent));
 				this.cachedData.set(
 					httpRequest.urlWithParams,
 					stateEvent.clone()

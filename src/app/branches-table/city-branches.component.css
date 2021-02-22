@@ -13,12 +13,58 @@
   margin-top: 10px;
 }
 
-.bank-id-cell {
+.mat-column-bankId {
+  flex: 0 0 8%;
   text-align: center;
 }
 
-.address-cell {
-  display: inline-block;
-  overflow: break-word;
-  margin-right: 10px;
+.mat-column-ifsc {
+  flex: 0 0 10%;
+  text-align: center;
+}
+
+.mat-column-branch {
+
+  word-wrap: break-word !important;
+  flex: 0 0 15% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  width: 12% !important;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+
+}
+
+.mat-column-bank_name {
+  flex: 0 0 10%;
+}
+
+.mat-column-state {
+  flex: 0 0 10%;
+  text-align: center;
+}
+
+.mat-column-district {
+  flex: 0 0 10%;
+}
+
+.mat-column-city {
+  flex: 0 0 10%;
+  text-align: right;
+}
+
+.mat-column-favourite {
+  flex: 0 0 5%;
+  text-align: center;
+}
+
+.mat-cell:nth-child(5),
+.mat-header-cell:nth-child(5),
+  {
+  flex: 0 0 10%;
+  word-wrap: break-word;
+  min-width: 100px;
+  max-width: 100px;
 }

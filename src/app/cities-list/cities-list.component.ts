@@ -4,8 +4,8 @@ import { CityBranchesComponent } from "../branches-table/city-branches.component
 import { NgbDropdown } from "@ng-bootstrap/ng-bootstrap";
 import { SelectedCityService } from "../services/selected-city.service";
 import { City } from '../model/city';
-//import { BranchService } from "../branch/branch.service";
-import { Router } from "@angular/router";
+import { BranchService } from "../services/branch.service";
+//import { Router } from "@angular/router";
 
 @Component({
   selector: "cities-list",
@@ -21,19 +21,21 @@ export class CitiesListComponent implements OnInit {
 
   citySelected : City;
 
-  constructor(
+  /*constructor(
     private router: Router,
     private selectedCityService: SelectedCityService
   ) {
     console.log(
       "CitiesListComponent | constructor ");
-  }
+  }*/
 
-  /*constructor(
-    private router: Router,
+ constructor(
     private branchService: BranchService,
     private selectedCityService: SelectedCityService
-  ) {}*/
+  ) {
+     console.log(
+      "CitiesListComponent | constructor ");
+  }
 
   ngOnInit(): void {
     
@@ -42,22 +44,24 @@ export class CitiesListComponent implements OnInit {
       "CitiesListComponent | ngOnInit | city selected: " + JSON.stringify(this.citySelected)
     );
     this.selectedCityService.setSelectedCity(this.citySelected);
-    this.router.navigateByUrl("api/branches/" + this.citySelected.name);
+    //this.router.navigateByUrl("branches/" + this.citySelected.name);
     console.log(
-      "CitiesListComponent | navigated to: " + "api/branches/" + this.citySelected.name
+      "CitiesListComponent | navigated to: " + "branches/" + this.citySelected.name
     );
-    //this.branchService.findBranchesByCityName(this.citySelected.name.toString());
+    this.branchService.findBranchesByCityName(this.citySelected.name.toString());
   }
 
   onCitySelection(city: City) {
    
     this.citySelected = city;
     this.selectedCityService.setSelectedCity(this.citySelected);
+    
     this.cityBranchesComponent.loadBranchesOnCitySelection(this.citySelected.name.toString(),'');
     console.log(
       "CitiesListComponent | Slected city : " +
         JSON.stringify(this.selectedCityService.getSelectedCity())
     );
-    this.router.navigateByUrl("api/branches/" + this.citySelected.name);
+
+    //this.router.navigateByUrl("branches/" + this.citySelected.name);
   }
 }

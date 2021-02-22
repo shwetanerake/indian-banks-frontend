@@ -12,7 +12,7 @@
   <mat-form-field appearance="fill">
     <mat-label>List Branches within City</mat-label>
     <mat-select [(value)]="citySelected.id">
-      <mat-option [routerLink]="['/api/branches', city.name]" (click)="onCitySelection(city)" [value]="city.id" *ngFor="let city of cities">{{ city.name }}</mat-option>
+      <mat-option (click)="onCitySelection(city)" [value]="city.id" *ngFor="let city of cities">{{ city.name }}</mat-option>
     </mat-select>
   </mat-form-field>
   <p>Showing branches withing {{citySelected.name}} city...</p>

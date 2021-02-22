@@ -11,7 +11,8 @@ import { throwError, of, EMPTY } from "rxjs";
 import { retry, catchError } from "rxjs/operators";
 import { Branch } from "../model/branch";
 import { CacheRegistrationService } from "../services/cache.registeration.service";
-import { environment } from "../../environments/environment.prod";
+//import { environment } from "../../environments/environment.prod";
+import { environment } from "../../environments/environment";
 
 @Injectable({
 	providedIn: "root"
@@ -21,15 +22,57 @@ export class BranchService {
 
 	private cache = {};
 
-	private SEARCH_AND_FIND_BRANCHES_IN_CITY_ENDPOINT = environment.apiHostname + "/api/branches/autocomplete";
+	private SEARCH_API_ENDPOINT =
+		environment.apiHostname + "/api/branches/autocomplete";
 
 	constructor(private httpClient: HttpClient,private cacheRegistrationService: CacheRegistrationService) {
 		console.log("BranchService | constructor");
-		cacheRegistrationService.addToCache(this.SEARCH_AND_FIND_BRANCHES_IN_CITY_ENDPOINT);
+		cacheRegistrationService.addToCache(this.SEARCH_API_ENDPOINT);
 	}
+
+	/*constructor(private httpClient: HttpClient) {
+		console.log("BranchService | constructor");
+	}*/
 
 	ngOnInit(): void {}
 
+	sendSearchListReq(
+		cityName: string,
+		searchString: string,
+		pageIndex = 0,
+		pageSize = 5
+	): Observable<any> {
+		let headers = new HttpHeaders();
+
+		// In case developer wants to reset the cache for user data then set header
+		/*if (reset) {
+			
+			headers = headers.set("reset-cache", true);
+		}*/
+		let offset = pageIndex * pageSize;
+
+		return this.httpClient.get(this.SEARCH_API_ENDPOINT, {
+			params: new HttpParams()
+				.set("city-name", cityName)
+				.set("q", searchString)
+				.set("offset", offset.toString())
+				.set("limit", pageSize.toString())
+		});
+	}
+
+	
+	findBranchesByCityName(cityName: string): Observable<Branch[]> {
+		return this.httpClient.get<Branch[]>(
+			environment.apiHostname + `/api/branches?q=${cityName}`
+		);
+	}
+
+	getBranchesDetails(ifsc: string): Observable<Branch> {
+		
+		return this.httpClient.get<Branch>(
+			environment.apiHostname + `/api/bank/branch?ifsc=${ifsc}`
+		);
+	}
 	/*private handleError(error: HttpErrorResponse) {
 		if (error.error instanceof ErrorEvent) {
 			// A client-side or network error occurred. Handle it accordingly.
@@ -47,7 +90,7 @@ export class BranchService {
 
 	public getBranchesInCity(cityName, offset, limit) {
 		
-		return this.httpClient.get(this.SEARCH_AND_FIND_BRANCHES_IN_CITY_ENDPOINT,{
+		return this.httpClient.get(this.SEARCH_API_ENDPOINT,{
             params: new HttpParams()
             	.set('q',cityName)
                 .set('offset', offset.toString())
@@ -56,32 +99,6 @@ export class BranchService {
         }).pipe(retry(3), catchError(this.handleError));;
 
 	}*/
-
-	sendSearchListReq(
-		cityName: string,
-		searchString: string,
-		pageIndex = 0,
-		pageSize = 5
-	): Observable<any> {
-		
-		let headers = new HttpHeaders();
-
-		// In case developer wants to reset the cache for user data then set header
-		/*if (reset) {
-			
-			headers = headers.set("reset-cache", true);
-		}*/
-		let offset = pageIndex * pageSize;
-
-		return this.httpClient
-			.get(this.SEARCH_AND_FIND_BRANCHES_IN_CITY_ENDPOINT, {
-				params: new HttpParams()
-					.set("city-name", cityName)
-					.set("q", searchString)
-					.set("offset", offset.toString())
-					.set("limit", pageSize.toString())
-			});
-	}
 
 	/*sendSearchListReq(
 		cityName: string,
@@ -102,7 +119,7 @@ export class BranchService {
 		let offset = pageIndex * pageSize;
 
 		return (this.cache[cacheKey] = this.httpClient
-			.get(this.SEARCH_AND_FIND_BRANCHES_IN_CITY_ENDPOINT, {
+			.get(this.SEARCH_API_ENDPOINT, {
 				params: new HttpParams()
 					.set("city-name", cityName)
 					.set("q", searchString)
@@ -118,10 +135,4 @@ export class BranchService {
 			));
 		//}
 	}*/
-
-	findBranchesByCityName(cityName: string): Observable<Branch[]> {
-		return this.httpClient.get<Branch[]>(
-			environment.apiHostname + `/api/branches?q=${cityName}`
-		);
-	}
 }

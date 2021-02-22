@@ -28,13 +28,12 @@ import { ActivatedRoute, Router, NavigationEnd } from "@angular/router";
 import "rxjs/add/operator/filter";
 
 @Component({
-  selector: 'city-branches-table',
-  templateUrl: './city-branches.component.html',
-  styleUrls: ['./city-branches.component.css']
+	selector: "city-branches-table",
+	templateUrl: "./city-branches.component.html",
+	styleUrls: ["./city-branches.component.css"]
 })
 export class CityBranchesComponent implements OnInit, AfterViewInit {
-
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+	@ViewChild(MatPaginator) paginator: MatPaginator;
 
 	branch: Branch;
 
@@ -73,7 +72,6 @@ export class CityBranchesComponent implements OnInit, AfterViewInit {
 		private selectedCityService: SelectedCityService,
 		private branchService: BranchService
 	) {
-
 		console.log("BranchesListComponent | constructor ");
 		/*router.events
 			.filter(e => e instanceof NavigationEnd)
@@ -84,17 +82,28 @@ export class CityBranchesComponent implements OnInit, AfterViewInit {
 
 	ngOnInit(): void {
 		//this.getData('NASHIK',0,5);
-		console.log("BranchesListComponent | ngOnInit ");
+		/*console.log("BranchesListComponent | ngOnInit ");
 		this.router.events
 			.filter(e => e instanceof NavigationEnd)
 			.forEach(e => {
-				this.count = this.route.root.firstChild.snapshot.data.course.branches[0].count;
-				console.log("BranchesListComponent OnInit | pageLength " + JSON.stringify(this.count));
-			});
+				/*console.log(
+					"BranchesListComponent OnInit | pageLength " +
+						JSON.stringify(this.route.root.firstChild.snapshot.data)
+				);
 
+				let json = this.route.root.firstChild.snapshot.data.branchCount;
+				this.count = this.route.root.firstChild.snapshot.data.branchCount.branches[0].count;
+				console.log("BranchesListComponent OnInit | pageLength " + this.count);
+			});
+*/
+		this.branchService.findBranchesByCityName(this.selectedCityService.getSelectedCity().name.toString())
+		.subscribe(data => {
+			//console.log(JSON.stringify(data));
+			this.count = data["branches"][0]['count'];
+		});
 		
 		this.branchDataSource = new BranchesDataSource(this.branchService);
-		
+
 		this.branchDataSource.datatableSearchAndListByCityName(
 			this.selectedCityService.getSelectedCity().name.toString(),
 			"",
@@ -103,8 +112,15 @@ export class CityBranchesComponent implements OnInit, AfterViewInit {
 		);
 	}
 
+	onBranchSelection(city: string, ifsc: string) {
+		this.router.navigateByUrl("branches/" + city + "/details/" + ifsc);
+	}
+
 	ngAfterViewInit() {
-		console.log("BranchesListComponent | ngAfterViewInit | this.input.nativeElement.value: " + this.input.nativeElement.value);
+		console.log(
+			"BranchesListComponent | ngAfterViewInit | this.input.nativeElement.value: " +
+				this.input.nativeElement.value
+		);
 
 		fromEvent(this.input.nativeElement, "keyup")
 			.pipe(
@@ -123,6 +139,11 @@ export class CityBranchesComponent implements OnInit, AfterViewInit {
 			.subscribe();
 	}
 
+	btnClick(ifsc: string) {
+		console.log("pppppppppp" + ifsc);
+		this.router.navigate(["/bank/branch/" + ifsc]);
+	}
+
 	loadBranchesWithSearch() {
 		console.log("BranchesListComponent | loadBranchesWithSearch");
 		this.branchDataSource.datatableSearchAndListByCityName(
@@ -133,7 +154,14 @@ export class CityBranchesComponent implements OnInit, AfterViewInit {
 		);
 	}
 
-	loadBranchesOnCitySelection(cityName: string, searchString:''){
+	loadBranchesOnCitySelection(cityName: string, searchString: "") {
+
+		this.branchService.findBranchesByCityName(this.selectedCityService.getSelectedCity().name.toString())
+		.subscribe(data => {
+			//console.log(JSON.stringify(data));
+			this.count = data["branches"][0]['count'];
+		});
+		
 		console.log("BranchesListComponent  | loadBranchesOnCitySelection");
 		this.branchDataSource.datatableSearchAndListByCityName(
 			cityName,
@@ -152,11 +180,10 @@ export class CityBranchesComponent implements OnInit, AfterViewInit {
 	}
 
 	markAsFavourite($event, element) {
-
 		//console.log("isFavourite?:" + JSON.stringify($event));
-		element['isFavourite'] = $event;
+		element["isFavourite"] = $event;
 		//console.log("after marking favourite: " + JSON.stringify(element));
-		localStorage.setItem(element.ifsc,  JSON.stringify(element));
+		localStorage.setItem(element.ifsc, JSON.stringify(element));
 	}
 
 	/*pageChanged(event) {
@@ -180,12 +207,11 @@ export class CityBranchesComponent implements OnInit, AfterViewInit {
 				pageSize
 		);*/
 
-		/*this.getBranchesInCityOnPageChange(
+	/*this.getBranchesInCityOnPageChange(
 			previousSize,
 			pageIndex.toString(),
 			pageSize.toString()
 		);*/
-	
 
 	/*getBranchesInCityOnPageChange(currentSize, offset, limit) {
 		console.log("getBranchesInCityOnPageChange:" + this.selectedCityName);
@@ -206,5 +232,4 @@ export class CityBranchesComponent implements OnInit, AfterViewInit {
 				this.branchDataSource.paginator = this.paginator;
 			});
 	}*/
-
 }

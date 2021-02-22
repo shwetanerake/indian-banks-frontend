@@ -17,14 +17,17 @@
 <mat-table [dataSource]="branchDataSource" class="branches-table mat-elevation-z8">
   <ng-container matColumnDef="bankId">
     <mat-header-cell *matHeaderCellDef>Bank ID</mat-header-cell>
-    <mat-cell class="bank-id-cell" *matCellDef="let element">
+    <mat-cell *matCellDef="let element">
       <div>{{element.bank_id}}</div>
     </mat-cell>
   </ng-container>
   <ng-container matColumnDef="ifsc">
     <mat-header-cell *matHeaderCellDef>IFSC</mat-header-cell>
     <mat-cell *matCellDef="let element">
-      <div>{{element.ifsc}}</div>
+      <a class="button" [routerLinkActiveOptions]="{ exact: false }" [routerLink]="['/branches/details',element.ifsc]" routerLinkActive="activebutton">
+        {{element.ifsc}}
+      </a>
+     <!-- <a class="button" (click)="onBranchSelection(element.city,element.ifsc)">{{element.ifsc}}</a>-->
     </mat-cell>
   </ng-container>
   <ng-container matColumnDef="bank_name">
@@ -41,7 +44,7 @@
   </ng-container>
   <ng-container matColumnDef="address">
     <mat-header-cell *matHeaderCellDef>Address</mat-header-cell>
-    <mat-cell class="address-cell" *matCellDef="let element">
+    <mat-cell *matCellDef="let element">
       <div>{{element.address}}</div>
     </mat-cell>
   </ng-container>
@@ -74,4 +77,3 @@ pagination ends-->
 <!--pagination starts-->
 <mat-paginator [length]="count" [pageIndex]=0 [pageSize]="5" [pageSizeOptions]="[5, 10, 15, 20, 30] " [showFirstLastButtons]="true">
 </mat-paginator>
-<!--pagination ends-->
