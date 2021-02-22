@@ -11,8 +11,8 @@ import { throwError, of, EMPTY } from "rxjs";
 import { retry, catchError } from "rxjs/operators";
 import { Branch } from "../model/branch";
 import { CacheRegistrationService } from "../services/cache.registeration.service";
-//import { environment } from "../../environments/environment.prod";
-import { environment } from "../../environments/environment";
+import { environment } from "../../environments/environment.prod";
+//import { environment } from "../../environments/environment";
 
 @Injectable({
 	providedIn: "root"
@@ -24,6 +24,9 @@ export class BranchService {
 
 	private SEARCH_API_ENDPOINT =
 		environment.apiHostname + "/api/branches/autocomplete";
+
+	private BRANCH_DEATILS_API_ENDPOINT =
+		environment.apiHostname + "/api/bank/branch?ifsc=";
 
 	constructor(private httpClient: HttpClient,private cacheRegistrationService: CacheRegistrationService) {
 		console.log("BranchService | constructor");
@@ -68,9 +71,7 @@ export class BranchService {
 	}
 
 	getBranchesDetails(ifsc: string): Observable<Branch> {
-		
-		return this.httpClient.get<Branch>(
-			environment.apiHostname + `/api/bank/branch?ifsc=${ifsc}`
+		return this.httpClient.get<Branch>(this.BRANCH_DEATILS_API_ENDPOINT + ifsc
 		);
 	}
 	/*private handleError(error: HttpErrorResponse) {
