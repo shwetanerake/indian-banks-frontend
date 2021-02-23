@@ -61,7 +61,7 @@ export class CityBranchesComponent implements OnInit, AfterViewInit {
 	//destroy$: Subject<boolean> = new Subject<boolean>();
 	selectedCityName: string;
 
-	loading: boolean = true;
+	//loading: boolean = true;
 	shouldShow: boolean = true;
 
 	@ViewChild("input", { static: false }) input: ElementRef;

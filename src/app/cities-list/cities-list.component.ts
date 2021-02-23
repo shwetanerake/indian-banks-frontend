@@ -27,12 +27,17 @@ export class CitiesListComponent implements OnInit {
   ) {
     console.log(
       "CitiesListComponent | constructor ");
-  }*/
+  }
 
  constructor(
     private branchService: BranchService,
     private selectedCityService: SelectedCityService
   ) {
+     console.log(
+      "CitiesListComponent | constructor ");
+  }*/
+
+  constructor( private selectedCityService: SelectedCityService){
      console.log(
       "CitiesListComponent | constructor ");
   }
@@ -44,10 +49,11 @@ export class CitiesListComponent implements OnInit {
       "CitiesListComponent | ngOnInit | city selected: " + JSON.stringify(this.citySelected)
     );
     this.selectedCityService.setSelectedCity(this.citySelected);
-    //this.router.navigateByUrl("branches/" + this.citySelected.name);
+    
+    /*this.router.navigateByUrl("branches/" + this.citySelected.name);
     console.log(
       "CitiesListComponent | navigated to: " + "branches/" + this.citySelected.name
-    );
+    );*/
     //this.branchService.findBranchesByCityName(this.citySelected.name.toString());
   }
 
