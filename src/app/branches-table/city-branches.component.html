@@ -10,11 +10,12 @@
 <!--<div class="alert alert-info">Showing branches within {{selectedCityName}} city...</div>-->
 <!--seardh bar starts-->
 <!--seardh bar ends-->
-<div class="spinner-container" *ngIf="branchDataSource.loading$ | async">
-  <mat-spinner></mat-spinner>
+<div class="loading-indicator" *ngIf="branchDataSource.loading$ | async">
+  <mat-spinner mode="indeterminate"></mat-spinner>
 </div>
 <!--table starts-->
-<mat-table [dataSource]="branchDataSource" class="branches-table mat-elevation-z8">
+<div class="table-container mat-elevation-z8">
+<mat-table #table [dataSource]="branchDataSource">
   <ng-container matColumnDef="bankId">
     <mat-header-cell *matHeaderCellDef>Bank ID</mat-header-cell>
     <mat-cell *matCellDef="let element">
@@ -69,6 +70,7 @@
   <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
   <mat-row *matRowDef="let row; columns: columnsToDisplay;"></mat-row>
 </mat-table>
+</div>
 <!--table ends-->
 <!--pagination starts
 <mat-paginator [length]="count" [pageIndex]=0 [pageSize]="5" [pageSizeOptions]="[5, 10, 15, 20, 30] " [showFirstLastButtons]="true" (page)="pageChanged($event)">
