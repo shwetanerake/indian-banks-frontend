@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { CITIES } from "../model/mock-cities";
-import { CityBranchesComponent } from "../branches-table/city-branches.component";
+import { BranchesTableComponent } from "../branches-table/branches-table.component";
 import { NgbDropdown } from "@ng-bootstrap/ng-bootstrap";
 import { SelectedCityService } from "../services/selected-city.service";
 import { City } from '../model/city';
@@ -17,7 +17,7 @@ export class CitiesListComponent implements OnInit {
   //static array of 5 cities
   cities = CITIES;
 
-  @Input() cityBranchesComponent: CityBranchesComponent;
+  @Input() branchesTableComponent: BranchesTableComponent;
 
   citySelected : City;
 
@@ -62,7 +62,7 @@ export class CitiesListComponent implements OnInit {
     this.citySelected = city;
     this.selectedCityService.setSelectedCity(this.citySelected);
     
-    this.cityBranchesComponent.loadBranchesOnCitySelection(this.citySelected.name.toString(),'');
+    this.branchesTableComponent.loadBranchesOnCitySelection(this.citySelected.name.toString(),'');
     console.log(
       "CitiesListComponent | Slected city : " +
         JSON.stringify(this.selectedCityService.getSelectedCity())

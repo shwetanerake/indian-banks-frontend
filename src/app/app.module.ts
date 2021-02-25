@@ -24,9 +24,11 @@ import { CacheRegistrationService } from "./services/cache.registeration.service
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AppHttpInterceptor } from "./services/app.http-interceptor";
 import { BranchComponent } from "./branch/branch.component";
-import { CityBranchesComponent } from "./branches-table/city-branches.component";
 import { BranchDetailsResolver } from "./services/branch.details.resolver";
 import { DefaultlayoutComponent } from './defaultlayout/defaultlayout.component';
+import { SnackbarComponent } from './snackbar/snackbar.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { BranchesTableComponent } from './branches-table/branches-table.component';
 
 @NgModule({
   declarations: [
@@ -34,10 +36,12 @@ import { DefaultlayoutComponent } from './defaultlayout/defaultlayout.component'
     CitiesListComponent,
     FavouriteComponent,
     BranchComponent,
-    CityBranchesComponent,
-    DefaultlayoutComponent
+    DefaultlayoutComponent,
+    SnackbarComponent,
+    BranchesTableComponent
   ],
   imports: [
+    MatSnackBarModule,
     BrowserModule,
     AppRoutingModule,
     MatCardModule,
@@ -60,7 +64,8 @@ import { DefaultlayoutComponent } from './defaultlayout/defaultlayout.component'
     CityBranchesResolver,
     SelectedCityService,
     BranchService,
-    BranchDetailsResolver
+    BranchDetailsResolver,
+    SnackbarComponent
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

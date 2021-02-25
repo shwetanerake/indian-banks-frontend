@@ -5,7 +5,7 @@ import { CitiesListComponent } from "./cities-list/cities-list.component";
 import { BranchComponent } from "./branch/branch.component";
 import { BranchDetailsResolver } from "./services/branch.details.resolver";
 import { AppComponent } from "./app.component";
-import { CityBranchesComponent } from "./branches-table/city-branches.component";
+import { BranchesTableComponent } from "./branches-table/branches-table.component";
 import { DefaultlayoutComponent } from "./defaultlayout/defaultlayout.component";
 
 const routes: Routes = [
@@ -13,7 +13,7 @@ const routes: Routes = [
     path: "",
     children: [
       { path: "", pathMatch: "full", component: DefaultlayoutComponent },
-      { path: "branches", component: CityBranchesComponent },
+      { path: "branches", component: BranchesTableComponent },
       { path: "branches/details/:ifsc", component: BranchComponent }
     ]
   },
