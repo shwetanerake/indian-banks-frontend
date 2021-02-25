@@ -36,6 +36,84 @@
   flex: 0 0 10%;
 }
 
+.table-container {
+  display: flex;
+  flex-direction: column;
+  max-height: 500px;
+  min-width: 300px;
+}
+
+.mat-table {
+  overflow: auto;
+  max-height: 500px;
+}
+
+.mat-column-select {
+  overflow: visible;
+}
+
+.table-container {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+  margin: 10px;
+}
+
+
+.mat-header-cell,
+.mat-header-row,
+.mat-header-cell-def {
+  background: #f2f4f7;
+  min-height: 15px;
+  font-family: Verdana, sans-serif;
+  font-weight: bold;
+  font-size: 13px;
+  color: #1a084c;
+  margin-bottom: 5px;
+  top: 0;
+  position: sticky;
+  z-index: 1;
+}
+
+
+
+mat-row {
+  min-height: 100%;
+  font-family: Verdana, sans-serif;
+  font-size: 11px;
+  color: #1a084c;
+}
+
+mat-cell {
+  height: 100%;
+  font-family: Verdana, sans-serif;
+  font-size: 14px;
+  color: #1a084c;
+}
+
+@media only screen and (max-width: 736px) and (orientation:portrait) {
+
+  mat-header-row,
+  mat-row {
+    width: 200%;
+  }
+
+
+}
+
+.mat-column-address {
+
+  word-wrap: break-word !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  width: 12% !important;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+
+}
+
 /*.table-container {
   display: flex;
   flex-direction: column;
@@ -160,78 +238,3 @@ mat-header-row, mat-row {
     font-size:14px;
     overflow-wrap: break-word;
 }*/
-.table-container {
-  display: flex;
-  flex-direction: column;
-  max-height: 500px;
-  min-width: 300px;
-}
-
-.mat-table {
-  overflow: auto;
-  max-height: 500px;
-}
-
-.mat-column-select {
-  overflow: visible;
-}
-
-.table-container {
-  display: flex;
-  flex-direction: column;
-  min-width: 300px;
-  margin: 10px;
-}
-
-
-.mat-header-cell,
-.mat-header-row,
-.mat-header-cell-def {
-  background: #f2f4f7;
-  min-height: 15px;
-  font-family: Verdana, sans-serif;
-  font-weight: bold;
-  font-size: 13px;
-  color: #1a084c;
-  margin-bottom: 5px;
-  top: 0;
-  position: sticky;
-  z-index: 1;
-}
-
-
-
-mat-row{
-    min-height:100%;
-    font-family:Verdana,sans-serif;
-    font-size:11px;
-    color: #1a084c;
-    }
-mat-cell{
-    height:100%;
-    font-family:Verdana,sans-serif;
-    font-size:13px; 
-    color: #1a084c;
-}
-
-@media only screen and (max-width: 736px) and (orientation:portrait) {
-
-  mat-header-row,
-  mat-row {
-    width: 200%;
-  }
-
-
-}
-.mat-column-address {
-
-  word-wrap: break-word !important;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  width: 12% !important;
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
-
-}

@@ -4,7 +4,7 @@
 <!--<div class="loading-indicator" *ngIf="loading;else table">
   <mat-spinner mode="indeterminate"></mat-spinner>
 </div>-->
-<mat-form-field>
+<mat-form-field  >
   <input matInput placeholder="Search..." #input>
 </mat-form-field>
 <!--<div class="alert alert-info">Showing branches within {{selectedCityName}} city...</div>-->
@@ -14,8 +14,9 @@
   <mat-spinner mode="indeterminate"></mat-spinner>
 </div>
 <!--table starts-->
+
 <div class="table-container mat-elevation-z8">
-<mat-table #table [dataSource]="branchDataSource">
+<mat-table  #table [dataSource]="branchDataSource">
   <ng-container matColumnDef="bankId">
     <mat-header-cell *matHeaderCellDef>Bank ID</mat-header-cell>
     <mat-cell *matCellDef="let element">
@@ -77,5 +78,6 @@
 </mat-paginator>
 pagination ends-->
 <!--pagination starts-->
+
 <mat-paginator [length]="count" [pageIndex]=0 [pageSize]="5" [pageSizeOptions]="[5, 10, 15, 20, 30] " [showFirstLastButtons]="true">
 </mat-paginator>

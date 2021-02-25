@@ -17,9 +17,11 @@ import {
 	distinctUntilChanged,
 	startWith,
 	tap,
-	delay
+	delay,
+	catchError,
+	finalize
 } from "rxjs/operators";
-import { fromEvent, Subject, pipe, merge } from "rxjs";
+import { of, fromEvent, Subject, pipe, merge } from "rxjs";
 import { Branch } from "../model/branch";
 //import { MatTableDataSource } from "@angular/material/table";
 import { SelectedCityService } from "../services/selected-city.service";
@@ -28,11 +30,12 @@ import { ActivatedRoute, Router, NavigationEnd } from "@angular/router";
 import "rxjs/add/operator/filter";
 
 @Component({
-	selector: "city-branches-table",
-	templateUrl: "./city-branches.component.html",
-	styleUrls: ["./city-branches.component.css"]
+	selector: "branches-table",
+	templateUrl: "./branches-table.component.html",
+	styleUrls: ["./branches-table.component.css"]
 })
-export class CityBranchesComponent implements OnInit, AfterViewInit {
+export class BranchesTableComponent implements OnInit, AfterViewInit {
+	
 	@ViewChild(MatPaginator) paginator: MatPaginator;
 
 	branch: Branch;
@@ -62,7 +65,7 @@ export class CityBranchesComponent implements OnInit, AfterViewInit {
 	selectedCityName: string;
 
 	//loading: boolean = true;
-	shouldShow: boolean = true;
+	showTablePagination: boolean = true;
 
 	@ViewChild("input", { static: false }) input: ElementRef;
 
@@ -96,12 +99,8 @@ export class CityBranchesComponent implements OnInit, AfterViewInit {
 				console.log("BranchesListComponent OnInit | pageLength " + this.count);
 			});
 */
-		this.branchService.findBranchesByCityName(this.selectedCityService.getSelectedCity().name.toString())
-		.subscribe(data => {
-			//console.log(JSON.stringify(data));
-			this.count = data["branches"][0]['count'];
-		});
-		
+		this.setPageCount();
+
 		this.branchDataSource = new BranchesDataSource(this.branchService);
 
 		this.branchDataSource.datatableSearchAndListByCityName(
@@ -139,11 +138,11 @@ export class CityBranchesComponent implements OnInit, AfterViewInit {
 			.subscribe();
 	}
 
-	btnClick(ifsc: string) {
+	/*btnClick(ifsc: string) {
 		console.log("pppppppppp" + ifsc);
 		this.router.navigate(["/bank/branch/" + ifsc]);
 	}
-
+*/
 	loadBranchesWithSearch() {
 		console.log("BranchesListComponent | loadBranchesWithSearch");
 		this.branchDataSource.datatableSearchAndListByCityName(
@@ -155,13 +154,8 @@ export class CityBranchesComponent implements OnInit, AfterViewInit {
 	}
 
 	loadBranchesOnCitySelection(cityName: string, searchString: "") {
+		this.setPageCount();
 
-		this.branchService.findBranchesByCityName(this.selectedCityService.getSelectedCity().name.toString())
-		.subscribe(data => {
-			//console.log(JSON.stringify(data));
-			this.count = data["branches"][0]['count'];
-		});
-		
 		console.log("BranchesListComponent  | loadBranchesOnCitySelection");
 		this.branchDataSource.datatableSearchAndListByCityName(
 			cityName,
@@ -184,6 +178,27 @@ export class CityBranchesComponent implements OnInit, AfterViewInit {
 		element["isFavourite"] = $event;
 		//console.log("after marking favourite: " + JSON.stringify(element));
 		localStorage.setItem(element.ifsc, JSON.stringify(element));
+	}
+
+	setPageCount() {
+		this.branchService
+			.findBranchesByCityName(
+				this.selectedCityService.getSelectedCity().name.toString()
+			)
+			.pipe(
+				catchError(() => of([])),
+				finalize(() => (this.showTablePagination = false))
+			)
+			.subscribe(data => {
+				//console.log(JSON.stringify(data));
+				if (data["exit_code"] == 0) {
+					this.showTablePagination = true;
+					this.count = data["branches"][0]["count"];
+				} else {
+					this.count = 0;
+					this.showTablePagination = false;
+				}
+			});
 	}
 
 	/*pageChanged(event) {
