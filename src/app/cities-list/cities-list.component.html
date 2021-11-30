@@ -1,0 +1,19 @@
+
+  <!--<div ngbDropdown container="body">
+    <button class="btn btn-outline-primary" id="cityDropDownId" ngbDropdownToggle>Cities
+    </button>
+    <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="cityDropDownId">
+      <li [routerLink]="['/api/branches', city.name]" class="dropdown-item" ngbDropdownItem *ngFor="let city of cities" (click)="onCitySelection(city)">
+        {{city.name}}
+      </li>
+    </div>
+  </div>-->
+  
+  <mat-form-field appearance="fill">
+    <mat-label>List Branches within City</mat-label>
+    <mat-select [(value)]="citySelected.id">
+      <mat-option (click)="onCitySelection(city)" [value]="city.id" *ngFor="let city of cities">{{ city.name }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <p>Showing branches withing {{citySelected.name}} city...</p>
+

@@ -1,0 +1,10 @@
+<table mat-table [dataSource]="displayData" class="mat-elevation-z8" *ngIf="showTable">
+
+  <ng-container [matColumnDef]="column" *ngFor="let column of displayColumns">
+    <mat-header-cell *matHeaderCellDef>{{ column }}</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element[column] }} </mat-cell>
+  </ng-container>
+
+  <mat-row *matRowDef="let row; columns: displayColumns;"></mat-row>
+</table>
+<span  *ngIf="!showTable">Something bad happened; please try again later.</span>

@@ -1,0 +1,11 @@
+<div class="container">
+  <mat-card>
+    <mat-card-header style="background-color:#B8B8B8;padding-top: 10px">
+      <mat-card-title>{{title}}</mat-card-title>
+    </mat-card-header>
+  </mat-card>
+  <mat-card>
+    <cities-list [branchesTableComponent]="data"></cities-list>
+    <branches-table #data></branches-table>
+</mat-card>
+</div>

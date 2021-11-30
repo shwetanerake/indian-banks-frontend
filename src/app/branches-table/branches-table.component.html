@@ -1,0 +1,83 @@
+<!--<div class="alert alert-warning" role="alert">
+  Please select a City to continue..
+</div>-->
+<!--<div class="loading-indicator" *ngIf="loading;else table">
+  <mat-spinner mode="indeterminate"></mat-spinner>
+</div>-->
+<mat-form-field  >
+  <input matInput placeholder="Search..." #input>
+</mat-form-field>
+<!--<div class="alert alert-info">Showing branches within {{selectedCityName}} city...</div>-->
+<!--seardh bar starts-->
+<!--seardh bar ends-->
+<div class="loading-indicator" *ngIf="branchDataSource.loading$ | async">
+  <mat-spinner mode="indeterminate"></mat-spinner>
+</div>
+<!--table starts-->
+
+<div class="table-container mat-elevation-z8">
+<mat-table  #table [dataSource]="branchDataSource">
+  <ng-container matColumnDef="bankId">
+    <mat-header-cell *matHeaderCellDef>Bank ID</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <div>{{element.bank_id}}</div>
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="ifsc">
+    <mat-header-cell *matHeaderCellDef>IFSC</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <a class="button" [routerLinkActiveOptions]="{ exact: false }" [routerLink]="['/branches/details',element.ifsc]" routerLinkActive="activebutton">
+        {{element.ifsc}}
+      </a>
+     <!-- <a class="button" (click)="onBranchSelection(element.city,element.ifsc)">{{element.ifsc}}</a>-->
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="bank_name">
+    <mat-header-cell *matHeaderCellDef>Bank Name</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <div>{{element.bank_name}}</div>
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="branch">
+    <mat-header-cell *matHeaderCellDef>Branch Name</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <div>{{element.branch}}</div>
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="address">
+    <mat-header-cell *matHeaderCellDef>Address</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <div>{{element.address}}</div>
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="city">
+    <mat-header-cell *matHeaderCellDef>City</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{element.city}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="district">
+    <mat-header-cell *matHeaderCellDef>District</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{element.district}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="state">
+    <mat-header-cell *matHeaderCellDef>State</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{element.state}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="favourite">
+    <mat-header-cell *matHeaderCellDef>Mark As Favourite</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <app-favourite-button [selected]="element.isFavourite" (selectedChange)="markAsFavourite($event,element)"></app-favourite-button>
+    </mat-cell>
+  </ng-container>
+  <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: columnsToDisplay;"></mat-row>
+</mat-table>
+</div>
+<!--table ends-->
+<!--pagination starts
+<mat-paginator [length]="count" [pageIndex]=0 [pageSize]="5" [pageSizeOptions]="[5, 10, 15, 20, 30] " [showFirstLastButtons]="true" (page)="pageChanged($event)">
+</mat-paginator>
+pagination ends-->
+<!--pagination starts-->
+
+<mat-paginator [length]="count" [pageIndex]=0 [pageSize]="5" [pageSizeOptions]="[5, 10, 15, 20, 30] " [showFirstLastButtons]="true">
+</mat-paginator>
