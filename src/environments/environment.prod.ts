@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiHostname: "http://localhost:8082/"
+  apiHostname: "https://shielded-coast-37134.herokuapp.com"
 };
